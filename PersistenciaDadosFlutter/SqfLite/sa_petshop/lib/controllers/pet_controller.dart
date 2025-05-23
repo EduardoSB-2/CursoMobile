@@ -1,0 +1,24 @@
+import 'package:sa_petshop/services/petshop_dbhelper.dart';
+import '../models/pet_model.dart';
+
+class PetController {
+    final PetShopDBHelper _dbHelper = PetShopDBHelper();
+
+    //métodos controllers
+
+    Future<int> createPet(Pet pet) async {
+        return _dbHelper.insertPet(pet);
+    }
+
+    Future<List<Pet>> readPets() async {
+        return _dbHelper.getPets();
+    }
+
+    Future<int> readPetById(int id) async {
+        return _dbHelper.getPetById(id);
+    }
+
+    Future<int> deletePet(int id) async {
+        return _dbHelper.deletePet(id)
+    }
+}
