@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sa_petshop/controllers/pet_controller.dart';
+import 'package:sa_petshop/view/cadastro_pet_sreen.dart';
 
 import '../models/pet_model.dart';
 
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen>{
   bool _isLoading = true;
 
   @override
-  void initState() {
+  void initState() { // carrega o método antes de construit a tela.
     // TODO: implement initState
     super.initState();
     _carregarDados();
@@ -30,12 +31,15 @@ class _HomeScreenState extends State<HomeScreen>{
     try {
       _pets = await _controllerPet.readPets();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao Carregar os Dados $e")));
-    }
+      ScaffoldMessenger.of(
+        context,
+        ).showSnackBar( SnackBar(content: Text("Erro ao Carregar os Dados $e")));
+    } finally {
+
     setState(() {
       _isLoading = false;
     });
+  }
   }
 
   // build da tela
@@ -43,21 +47,28 @@ class _HomeScreenState extends State<HomeScreen>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: Text("Meus Pets"),),
-      body:_isLoading 
-      ? Center(child: CircularProgressIndicator(),) 
-      :Padding(
-        padding: EdgeInsets.all(16),
-        child: Expanded(child: ListView.builder(
-          itemCount: _pets.length,
-          itemBuilder: (context,index){
-            final pet = _pets[index];
-            return ListTile(
-              title: Text(pet.nome),
-              subtitle: Text(pet.nomeDono),
-              ///
-            );
-          })),) 
+      appBar: AppBar(title: Text("Meus Pets - Cliente"),),
+      body: _isLoading
+        ? Center(child: CircularProgressIndicator(),)
+        : Padding(
+          padding: EdgeInsets.all(16),
+          child: ListView.builder(
+            itemCount: _pets.length,
+            itemBuilder: (context,index){
+              final pet = _pets[index];
+              return ListTile(
+                title: Text("${pet.nome} - ${pet.raca}"),
+                subtitle: Text("${pet.nomeDono} - ${pet.telefoneDono}"),
+                //onTap: () => , //página de detalhes do PET
+              );
+            }),
+          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: 
+        (context)=> CadastroPetScreen())),
+        tooltip: "Adicionar Novo Pet",
+        child: Icon(Icons.add),
+        ),
     );
   }
 }

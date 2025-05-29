@@ -2,7 +2,7 @@
 
 class Pet{
     final int? id; // ? -> permite ser nulo
-    final String nome;final String nome;
+    final String nome;
     final String raca;
     final String nomeDono;
     final String telefoneDono;
@@ -34,7 +34,7 @@ factory Pet.fromMap(Map<String,dynamic> map){
         nome: map["nome"] as String,
         raca: map["raca"] as String,
         nomeDono: map["nome_dono"] as String,
-        telefoneDono: map["telefone_dono"] as Srtring
+        telefoneDono: map["telefone_dono"] as String
     );
 }
 }

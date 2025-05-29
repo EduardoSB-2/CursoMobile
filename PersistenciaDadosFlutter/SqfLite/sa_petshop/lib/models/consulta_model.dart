@@ -3,16 +3,16 @@ import 'package:intl/intl.dart';
 class Consulta {
     final int? id;
     final int petId;
-    final Datetime dataHora; // obj é dateTime -> BD é string
+    final DateTime dataHora; // obj é dateTime -> BD é string
     final  String tipoServico;
-    final String? observacao;
+    final String observacao;
 
     Consulta({ // Campo de obrigatoriedade -- required é obrigatório -- this não é
         this.id,
         required this.petId,
         required this.dataHora,
         required this.tipoServico,
-        this.observacao
+        required this.observacao,
     });
 
     //toMap - obj -> BD
@@ -31,15 +31,15 @@ class Consulta {
         return Consulta(
             id: map["id"] as int,
             petId: map["pet_id"] as int,
-            dataHora: Datetime.parse(map["data_hora"] as String), // converte String em DateTime
+            dataHora: DateTime.parse(map["data_hora"] as String), // converte String em DateTime
             tipoServico: map["tipo_servico"] as String,
-            observacao: map["observacao"] as String?
+            observacao: map["observacao"] as String
         );
     }
 
     // Método para formatar a data e hora em formato Brasil
     String get dataHoraFormatada {
-        final formatter = DateFormat("dd/MM/yyyy HH:mm");
+        final  DateFormat formatter = DateFormat("dd/MM/yyyy HH:mm");
         return formatter.format(dataHora);
     }
 }
