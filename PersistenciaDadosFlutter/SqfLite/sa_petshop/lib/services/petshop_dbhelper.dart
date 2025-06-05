@@ -30,25 +30,32 @@ class PetShopDBHelper {
       //Continuação para a criação da tabela consulta
     );
   }
-  // método para criar as tabelas
-
+  // método para cria as tabelas
   _onCreateDB(Database db, int version) async {
-    //criar a tabela do pet
-    await db.execute("""CREATE TABLE IF NOT EXISTS pets(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome TEXT NOT NULL,
-      raca TEXT NOT NULL,
-      nome_dono TEXT NOT NULL,
-      telefone_dono TEXT NOT NULL );""");
-    print("Tabela pets Criada");
-    await db.execute("""CREATE TABLE IF NOT EXISTS consultas(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      pet_id INTEGER NOT NULL,
-      data_hora TEXT NOT NULL,
-      tipo_servico TEXT NOT NULL,
-      observacao TEXT NOT NULL,
-      FOREING KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE)""");
-    print("tabela consulta criada");
+    // Cria a tabela 'pets'
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS pets(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        raca TEXT,
+        nome_dono TEXT,
+        telefone_dono TEXT
+      )
+    ''');
+    print("banco pets criado");
+
+    // Cria a tabela 'consultas'
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS consultas(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        pet_id INTEGER,
+        data_hora TEXT, 
+        tipo_servico TEXT,
+        observacao TEXT,
+        FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE
+      )
+    ''');
+    print("banco consultas criado");
   }
 
   Future<Database> get database async {
@@ -84,7 +91,7 @@ class PetShopDBHelper {
     if (maps.isEmpty) {
       return null;
     } else {
-      Pet.fromMap(maps.first);
+      return Pet.fromMap(maps.first);
     }
   }
 
