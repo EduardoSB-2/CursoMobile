@@ -49,7 +49,7 @@ Future<void> _addNotas() async {
  }
 
  Future<void> _updateNota(Nota nota) async {
-  Nota notaAtualizada = Nota(id: nota.id, titulo: "${nota.titulo} (editado)", conteudo: nota.conteudo);  )
+  Nota notaAtualizada = Nota(id: nota.id, titulo: "${nota.titulo} (editado)", conteudo: nota.conteudo);
  final update = await _notasController.updateNota(notaAtualizada);
  _loadNotas();
  }

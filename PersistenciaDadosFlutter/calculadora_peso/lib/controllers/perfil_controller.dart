@@ -1,7 +1,8 @@
+import 'package:calculadora_peso/services/calculadora_dbhelper.dart';
 import '../models/perfil_model.dart';
 
 class PerfilController {
-  final CalculadoraPesoDBHelper _dbHelper = CalculadoraPesoDBHelper();
+  final CalculadoraDBHelper _dbHelper = CalculadoraDBHelper();
 
   Future<int> createPerfil(Perfil perfil) async {
     return _dbHelper.insertPerfil(perfil);
@@ -11,13 +12,12 @@ class PerfilController {
     return _dbHelper.getPerfil();
   }
 
-  Future<int> updatePerfil(int perfil) async {
-    return _dbHelper.//updatePerfil(perfil);
+  Future<Perfil> updatePerfil(Perfil perfil) async {
+    return _dbHelper.updatePerfil(perfil);
   
   }
-  Future<int> deletePerfil(int nome) async {
+  Future<int> deletePerfil(String nome) async {
     return _dbHelper.deletePerfil(nome);
   }
-
   
 }

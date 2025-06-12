@@ -4,6 +4,7 @@ class Perfil {
   final String sexo;
   final String dataNascimento;
 
+
   Perfil({
     required this.nome,
     required this.altura,
