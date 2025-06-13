@@ -66,12 +66,20 @@ class _PerfilPageState extends State<PerfilPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-        },
-        child: const Icon(Icons.add),
-        tooltip: 'Registrar novo peso',
+      // ...existing code...
+floatingActionButton: FloatingActionButton(
+  onPressed: () async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegistrarPesoPage(perfilNome: widget.perfil.nome),
       ),
     );
+    await _carregarHistorico();
+  },
+  child: const Icon(Icons.add),
+  tooltip: 'Registrar novo peso',
+),
+    );
   }
-}
+} 
