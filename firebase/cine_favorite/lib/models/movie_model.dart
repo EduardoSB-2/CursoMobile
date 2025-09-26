@@ -1,18 +1,18 @@
 //Classe de modelagem do OBJ Movie
 //Receber os dados da API -> Enviar os dados para o Firestore
 
-class MovieModel {
+class Movie {
   final int id;
   final String title;
   final String posterPath; //Caminho da imagem do Poster
   double rating; //nota do usuário ao filme sendo de 0 a 5
 
   //construtor
-  MovieModel({
+  Movie({
     required this.id,
     required this.title,
     required this.posterPath,
-    this.rating = 0.0
+    this.rating = 0.0,
   });
 
   //métodos de conversão de OBJ <=> JSON
@@ -27,8 +27,9 @@ class MovieModel {
   }
 
   //fromMap JSON => OBJ
-  factory MovieModel.fromMap(Map<String,dynamic> map){
-    return MovieModel(
+  //fabricando um OBJ a partir da coleção
+  factory Movie.fromMap(Map<String,dynamic> map){
+    return Movie(
       id: map["id"],
       title: map["title"],
       posterPath: map["posterPath"],

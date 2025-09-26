@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:cine_favorite/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:cine_favorite/views/favorite_view.dart';
 
 void main() async {
   //Garante o carregamento dos widgets
@@ -22,6 +21,7 @@ void main() async {
   ));
 }
 
+// Verificação se o usuário está logado ou não no sistema e direciona de acordo com a decisão
 class AuthStream extends StatelessWidget {
   const AuthStream({super.key});
 
@@ -32,7 +32,7 @@ class AuthStream extends StatelessWidget {
       builder: (context, snapshot){
         //Se o usuário estiver logado, direciona para a tela de filmes favoritos
         if(snapshot.hasData){//Verifica se o snapshot tem algum dado
-        //return FavoriteView();
+          return FavoriteView();
         } //Se não estiver logado, direciona para a tela de login
         return LoginView();
       });

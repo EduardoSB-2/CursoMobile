@@ -9,11 +9,10 @@ class RegistroView  extends StatefulWidget{
 }
 
 class _RegistroViewState extends State<RegistroView>{
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _nomeField = TextEditingController();
   final _emailField = TextEditingController();
   final _senhaField = TextEditingController();
   final _confirmarSenhaField = TextEditingController();
+  final _authController = FirebaseAuth.instance;
   bool _ocultarSenha = true;
   bool _ocultarConfirmarSenha = true;
 
@@ -21,9 +20,10 @@ class _RegistroViewState extends State<RegistroView>{
   void _registrar() async{
     if(_senhaField.text != _confirmarSenhaField.text) return;
     try {
-      await _auth.createUserWithEmailAndPassword(
+      await _authController.createUserWithEmailAndPassword(
         email: _emailField.text.trim(),
         password: _senhaField.text);
+        Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Falha ao Registrar: $e"))
@@ -31,18 +31,15 @@ class _RegistroViewState extends State<RegistroView>{
     } 
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Registro")),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _nomeField,
-              decoration: InputDecoration(labelText: "Nome"),
-            ),
             TextField(
               controller: _emailField,
               decoration: InputDecoration(labelText: "Email"),
@@ -50,23 +47,42 @@ class _RegistroViewState extends State<RegistroView>{
             ),
             TextField(
               controller: _senhaField,
-              decoration: InputDecoration(labelText: "Senha"),
-              obscureText: true,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _ocultarSenha =
+                        !_ocultarSenha; 
+                  }),
+                  icon: _ocultarSenha
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
+              ),
+              obscureText: _ocultarSenha,
             ),
             TextField(
               controller: _confirmarSenhaField,
-              decoration: InputDecoration(labelText: "Senha"),
-              obscureText: true,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _ocultarConfirmarSenha =
+                        !_ocultarConfirmarSenha;
+                  }),
+                  icon: _ocultarConfirmarSenha
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
+              ),
+              obscureText: _ocultarConfirmarSenha,
             ),
-            SizedBox(height: 20,),
-            _senhaField.text != _confirmarSenhaField.text
-            ? Text("As senhas devem ser iguais",
-            style: TextStyle(color: Colors.blueAccent, ),)
-            : ElevatedButton(
-              onPressed: _registrar, child: Text("Registrar-se")),
+
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: _registrar, child: Text("Registrar")),
           ],
         ),
-        ),
+      ),
     );
   }
 }
