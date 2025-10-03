@@ -5,6 +5,7 @@ import 'package:cine_favorite/models/movie_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_favorite/views/search_movie_view.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class FavoriteView extends StatefulWidget {
   const FavoriteView({super.key});
@@ -74,15 +75,36 @@ class _FavoriteViewState extends State<FavoriteView> {
                     // titulo do filme
                     Padding(padding: EdgeInsets.all(8),
                     child: Text(movie.title),),
-                    // nota do filme
-                    Padding( padding: EdgeInsets.all(8),
-                      child: Text(movie.rating.toString()),
-                      )
-
-
-                      //remove o fime
                       
+                      //Nota do filme
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RatingBar.builder(
+                            initialRating: 3,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            itemCount: 5,
+                            itemSize: 20.0,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                          ),
+                        ),
 
+
+
+                      //remover o fime favoritos
+                       ElevatedButton(
+                         onPressed: () async {
+                           _movieFireStoreController.removeFavoriteMovie(movie.id);
+                         },
+                         child: Text("Remover"),
+                       ),
 
                     ],
                   ),

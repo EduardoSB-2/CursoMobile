@@ -103,6 +103,7 @@ Demonstrar o Funcionamento de Entidades de Sistema
     - Fluxo da Ação de Login
 
     ```mermaid
+    graph TD
 
         A[Início] --> B{Tela de Login}
         B --> C[Inserir Email e Senha]
