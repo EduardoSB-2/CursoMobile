@@ -1,0 +1,88 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+class RegistroView  extends StatefulWidget{
+  const RegistroView ({super.key});
+
+  @override
+  State<RegistroView> createState() => _RegistroViewState(); 
+}
+
+class _RegistroViewState extends State<RegistroView>{
+  final _emailField = TextEditingController();
+  final _senhaField = TextEditingController();
+  final _confirmarSenhaField = TextEditingController();
+  final _authController = FirebaseAuth.instance;
+  bool _ocultarSenha = true;
+  bool _ocultarConfirmarSenha = true;
+
+
+  void _registrar() async{
+    if(_senhaField.text != _confirmarSenhaField.text) return;
+    try {
+      await _authController.createUserWithEmailAndPassword(
+        email: _emailField.text.trim(),
+        password: _senhaField.text);
+        Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Falha ao Registrar: $e"))
+      );
+    } 
+  }
+
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Registro")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _emailField,
+              decoration: InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: _senhaField,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _ocultarSenha =
+                        !_ocultarSenha; 
+                  }),
+                  icon: _ocultarSenha
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
+              ),
+              obscureText: _ocultarSenha,
+            ),
+            TextField(
+              controller: _confirmarSenhaField,
+              decoration: InputDecoration(
+                labelText: "Confirmar Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _ocultarConfirmarSenha =
+                        !_ocultarConfirmarSenha;
+                  }),
+                  icon: _ocultarConfirmarSenha
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
+              ),
+              obscureText: _ocultarConfirmarSenha,
+            ),
+
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: _registrar, child: Text("Registrar")),
+          ],
+        ),
+      ),
+    );
+  }
+}
