@@ -1,4 +1,4 @@
-# PontoApp
+# App de Registro de Ponto
 
 ## Descrição
 
